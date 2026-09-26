@@ -2,205 +2,1376 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>UstaMate</title>
+
 <style>
-body{margin:0;background:#101114;color:white;font-family:Arial}
-main{max-width:650px;margin:auto;padding:20px}
-.card{background:#1b1d22;padding:18px;border-radius:16px;margin:12px 0}
-button,input,select{width:100%;padding:14px;margin:7px 0;border:0;border-radius:10px;font-size:16px}
-button{font-weight:bold;background:#287ff0;color:white}
-.secondary{background:#292c33}
-.warning{background:#4b3214;padding:14px;border-radius:10px}
-.hidden{display:none}
-li{margin:10px 0}
-h1{text-align:center}
-.small{color:#aaa}
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#101114;
+    color:#fff;
+}
+
+.container{
+    width:92%;
+    max-width:650px;
+    margin:auto;
+    padding:25px 0 50px;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:5px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#aaa;
+    margin-bottom:25px;
+}
+
+.card{
+    background:#1b1d22;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.25);
+}
+
+button{
+    width:100%;
+    padding:15px;
+    margin:7px 0;
+    border:0;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.primary{
+    background:#2d8cff;
+    color:white;
+}
+
+.secondary{
+    background:#292c33;
+    color:white;
+}
+
+.danger{
+    background:#b83232;
+    color:white;
+}
+
+.success{
+    background:#27864a;
+    color:white;
+}
+
+input,select{
+    width:100%;
+    padding:14px;
+    margin:7px 0 12px;
+    border-radius:10px;
+    border:1px solid #444;
+    background:#111318;
+    color:white;
+    font-size:16px;
+}
+
+.hidden{
+    display:none;
+}
+
+.problem{
+    text-align:left;
+}
+
+.problem span{
+    font-size:24px;
+    margin-right:8px;
+}
+
+.car-photo{
+    width:100%;
+    max-height:300px;
+    object-fit:cover;
+    border-radius:14px;
+    margin:10px 0 15px;
+    background:#222;
+}
+
+.warning{
+    background:#4b3214;
+    border-left:5px solid #ffb020;
+    padding:13px;
+    border-radius:10px;
+    margin:12px 0;
+}
+
+.safe{
+    background:#173b28;
+    border-left:5px solid #35c878;
+    padding:13px;
+    border-radius:10px;
+    margin:12px 0;
+}
+
+.result-title{
+    font-size:22px;
+    margin-bottom:10px;
+}
+
+ul{
+    padding-left:22px;
+}
+
+li{
+    margin:9px 0;
+}
+
+.price{
+    color:#67b5ff;
+    font-weight:bold;
+}
+
+.small{
+    color:#999;
+    font-size:13px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.header button{
+    width:auto;
+    padding:9px 12px;
+}
+
+.product-card{background:#15171b;border-radius:14px;padding:14px;margin-top:12px}.product-img{width:100%;height:180px;object-fit:contain;background:#222;border-radius:12px;margin-bottom:10px}.check-list li{margin:12px 0}
+.model-suggestions{background:#111318;border:1px solid #3a3d44;border-radius:12px;margin:-5px 0 12px;overflow:hidden}
+.model-suggestion{padding:13px 14px;border-bottom:1px solid #292c33;cursor:pointer}
+.model-suggestion:last-child{border-bottom:0}
+.model-suggestion b{display:block}
+.model-suggestion span{color:#999;font-size:12px}
+
 </style>
 </head>
 
 <body>
-<main>
 
-<h1>🔧 UstaMate</h1>
-<p class="small" style="text-align:center">
-Avtomobil problemini ustaya getməzdən əvvəl başa düş
-</p>
+<div class="container">
 
-<section id="home">
-<div id="carBox" class="card"></div>
+    <h1>🔧 UstaMate</h1>
+    <p class="subtitle">
+        Avtomobil problemini ustaya getməzdən əvvəl başa düş
+    </p>
 
-<div class="card">
-<h2>🚗 Avtomobil</h2>
-<button onclick="showCar()">Maşınımı seç</button>
+    <!-- ANA SƏHİFƏ -->
+    <div id="ana">
+
+        <div id="savedCar"></div>
+
+        <div class="card">
+            <h2>🚗 Avtomobil</h2>
+
+            <button class="primary" data-action="masinSec">
+                🚗 Maşınımı seç
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>🔍 Problem seç</h2>
+
+            <button class="secondary problem" data-action="problemSec-start"><span>🔑</span> Maşın heç işə düşmür</button>
+            <button class="secondary problem" data-action="problemSec-crank"><span>🔄</span> Starter fırladır, amma işə düşmür</button>
+            <button class="secondary problem" data-action="problemSec-stall"><span>⚠️</span> Qaz verəndə boğulur / sönür</button>
+            <button class="secondary problem" data-action="problemSec-fuel"><span>⛽</span> Yanacaq çox sərf edir</button>
+            <button class="secondary problem" data-action="problemSec-slowstart"><span>🐢</span> Maşın gec işə düşür</button>
+            <button class="secondary problem" data-action="problemSec-sound"><span>🔊</span> Mühərrikdən qəribə səs gəlir</button>
+            <button class="secondary problem" data-action="problemSec-hot"><span>🌡️</span> Mühərrik qızır</button>
+            <button class="secondary problem" data-action="problemSec-antifreeze"><span>💧</span> Antifriz azalır / sızır</button>
+            <button class="secondary problem" data-action="problemSec-battery"><span>🔋</span> Akkumulyator tez boşalır</button>
+            <button class="secondary problem" data-action="problemSec-smoke"><span>💨</span> Tüstü çıxır</button>
+            <button class="secondary problem" data-action="problemSec-idle"><span>🔄</span> Xolostoyda titrəyir / dövr oynayır</button>
+            <button class="secondary problem" data-action="problemSec-brake"><span>🛑</span> Əyləcdə problem var</button>
+            <button class="secondary problem" data-action="problemSec-brakepull"><span>↔️</span> Əyləcdə bir tərəfə çəkir</button>
+            <button class="secondary problem" data-action="problemSec-steering"><span>🛞</span> Sükan ağırdır</button>
+            <button class="secondary problem" data-action="problemSec-steer-vib"><span>〰️</span> Sükan titrəyir</button>
+            <button class="secondary problem" data-action="problemSec-suspension"><span>🔩</span> Asqıdan taqqıltı gəlir</button>
+            <button class="secondary problem" data-action="problemSec-wheelnoise"><span>🔊</span> Təkər tərəfdən uğultu gəlir</button>
+            <button class="secondary problem" data-action="problemSec-pull"><span>🚗</span> Maşın bir tərəfə çəkir</button>
+            <button class="secondary problem" data-action="problemSec-tirewear"><span>🛞</span> Təkərlər qeyri-bərabər yeyilir</button>
+            <button class="secondary problem" data-action="problemSec-gear"><span>⚙️</span> Sürətlər gec / sərt dəyişir</button>
+            <button class="secondary problem" data-action="problemSec-gearnoise"><span>⚙️</span> Sürət qutusundan səs gəlir</button>
+            <button class="secondary problem" data-action="problemSec-shudder"><span>🚦</span> Hərəkətə başlayanda silkələnir</button>
+            <button class="secondary problem" data-action="problemSec-check"><span>🚨</span> Check Engine yanır</button>
+            <button class="secondary problem" data-action="problemSec-abs"><span>🚨</span> ABS / ESP / Airbag işığı yanır</button>
+            <button class="secondary problem" data-action="problemSec-oil"><span>🛢️</span> Yağ azalır / sızır</button>
+            <button class="secondary problem" data-action="problemSec-oilpressure"><span>⚠️</span> Yağ təzyiqi işığı yanır</button>
+            <button class="secondary problem" data-action="problemSec-light"><span>💡</span> Faralar zəifdir</button>
+            <button class="secondary problem" data-action="problemSec-electric"><span>🔌</span> Elektrik avadanlığı işləmir</button>
+            <button class="secondary problem" data-action="problemSec-ac"><span>❄️</span> Kondisioner soyutmur</button>
+            <button class="secondary problem" data-action="problemSec-heater"><span>🔥</span> Peç isti/soyuq vermir</button>
+            <button class="secondary problem" data-action="problemSec-fan"><span>💨</span> Ventilyator işləmir</button>
+            <button class="secondary problem" data-action="problemSec-lock"><span>🔐</span> Mərkəzi kilid işləmir</button>
+            <button class="secondary problem" data-action="problemSec-window"><span>🪟</span> Şüşələr qalxmır / açılmır</button>
+            <button class="secondary problem" data-action="problemSec-radio"><span>📻</span> Maqnitofon işləmir</button>
+            <button class="secondary problem" data-action="problemSec-smell"><span>👃</span> Yanacaq / qaz iyi gəlir</button>
+            <button class="secondary problem" data-action="problemSec-burn"><span>👃</span> Yanmış yağ iyi gəlir</button>
+            <button class="secondary problem" data-action="problemSec-exhaust"><span>💥</span> Egzozdan qəribə səs gəlir</button>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAŞIN SEÇİMİ -->
+    <div id="masinForm" class="hidden">
+
+        <div class="card">
+
+            <h2>🚗 Maşının məlumatları</h2>
+
+            <label>Marka</label>
+            <select id="marka" onchange="modelTeklifleriGoster()">
+                <option value="">Seç</option>
+                <option>Hyundai</option>
+                <option>Kia</option>
+                <option>Toyota</option>
+                <option>BMW</option>
+                <option>Mercedes-Benz</option>
+                <option>Volkswagen</option>
+                <option>Ford</option>
+                <option>Chevrolet</option>
+                <option>Lada</option>
+            </select>
+
+            <label>Model</label>
+            <input id="model"
+                   placeholder="Məsələn: Tucson"
+                   autocomplete="off"
+                   oninput="modelTeklifleriGoster()">
+            <div id="modelTeklifleri" class="model-suggestions hidden"></div>
+            <p class="small">Modeli səhv yazsan da, UstaMate yaxın uyğun modelləri təklif edəcək.</p>
+
+            <label>Buraxılış ili</label>
+            <input id="il"
+                   type="number"
+                   placeholder="Məsələn: 2007">
+
+            <button class="primary"
+                    data-action="masiniYaddaSaxla">
+                💾 Maşını yadda saxla
+            </button>
+
+            <button class="secondary"
+                    data-action="anaQayit">
+                ⬅️ Geri
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- NƏTİCƏ -->
+    <div id="netice" class="hidden"></div>
+
 </div>
 
-<div class="card">
-<h2>🔍 Problem seç</h2>
-<button class="secondary" onclick="diagnose('start')">🔑 Maşın işə düşmür</button>
-<button class="secondary" onclick="diagnose('stall')">⚠️ Qaz verəndə boğulur / sönür</button>
-<button class="secondary" onclick="diagnose('hot')">🌡️ Mühərrik qızır</button>
-<button class="secondary" onclick="diagnose('sound')">🔊 Mühərrikdən səs gəlir</button>
-<button class="secondary" onclick="diagnose('battery')">🔋 Akkumulyator tez boşalır</button>
-<button class="secondary" onclick="diagnose('smoke')">💨 Tüstü çıxır</button>
-<button class="secondary" onclick="diagnose('brake')">🛑 Əyləc problemi</button>
-<button class="secondary" onclick="diagnose('oil')">🛢️ Yağ problemi</button>
-</div>
-</section>
 
-<section id="car" class="hidden">
-<div class="card">
-<h2>🚗 Maşının məlumatları</h2>
+<script defer>
 
-<select id="brand">
-<option value="">Marka seç</option>
-<option>Hyundai</option>
-<option>Kia</option>
-<option>Toyota</option>
-<option>BMW</option>
-<option>Mercedes-Benz</option>
-<option>Volkswagen</option>
-<option>Ford</option>
-<option>Chevrolet</option>
-<option>Lada</option>
-</select>
+let secilenProblem = "";
 
-<input id="model" placeholder="Model — məsələn Tucson">
-<input id="year" type="number" placeholder="Buraxılış ili">
-
-<button onclick="saveCar()">💾 Yadda saxla</button>
-<button class="secondary" onclick="back()">⬅️ Geri</button>
-</div>
-</section>
-
-<section id="result" class="hidden"></section>
-
-</main>
-
-<script>
-let car=JSON.parse(localStorage.getItem("ustamateCar")||"null");
-
-const problems={
-start:{
-title:"🔑 Maşın işə düşmür",
-causes:["Akkumulyator zəif ola bilər","Starterdə problem ola bilər","Yanacaq sistemi problemli ola bilər","Alışdırma sistemində problem ola bilər"],
-check:["Panel işıqlarına bax","Akkumulyator klemmalarını vizual yoxla","Start zamanı mühərrikin fırlanıb-fırlanmadığını müşahidə et"],
-risk:"Akkumulyator və starter problemi davam edərsə daha ciddi elektrik nasazlığı yarana bilər."
-},
-stall:{
-title:"⚠️ Qaz verəndə boğulur / sönür",
-causes:["Hava filtri çirkli ola bilər","Hava girişində problem ola bilər","Yanacaq sistemi problemli ola bilər","Sensorlardan biri səhv məlumat verə bilər"],
-check:["Hava filtrinə bax","Hava giriş borularında çat və boşluq axtar","Problemin soyuq və ya isti mühərrikdə olduğunu qeyd et"],
-risk:"Problem davam edərsə yanacaq və ya hava sistemi üzrə əlavə nasazlıqlar yarana bilər."
-},
-hot:{
-title:"🌡️ Mühərrik qızır",
-causes:["Soyuducu maye az ola bilər","Radiator problemi ola bilər","Ventilyator işləməyə bilər","Termostat problemi ola bilər"],
-check:["Avtomobili saxla və mühərriki soyut","Tam soyuduqdan sonra maye səviyyəsinə bax","Sızma izi olub-olmadığını yoxla"],
-risk:"Davamlı qızma mühərrikə ciddi zərər verə bilər. Qızmış mühərrikdə radiator qapağını açma."
-},
-sound:{
-title:"🔊 Mühərrikdən qəribə səs gəlir",
-causes:["Yağ səviyyəsi aşağı ola bilər","Kəmər sistemində problem ola bilər","Mexaniki nasazlıq ola bilər","Egzozda boşluq ola bilər"],
-check:["Səsin soyuq və ya isti mühərrikdə gəldiyini müəyyən et","Səsin hansı tərəfdən gəldiyini müşahidə et","Yağ xəbərdarlıq işığına bax"],
-risk:"Səs güclənirsə avtomobili istifadə etməmək və diaqnostika etdirmək daha təhlükəsizdir."
-},
-battery:{
-title:"🔋 Akkumulyator tez boşalır",
-causes:["Akkumulyator köhnə ola bilər","Generator düzgün doldurmaya bilər","Elektrik enerjisi itkisi ola bilər","Avadanlıq açıq qala bilər"],
-check:["Klemmalara bax","Akkumulyatorun yaşını yoxla","İşıq və avadanlıqların açıq qalmadığını yoxla"],
-risk:"Generator və ya elektrik itkisi problemi davam edərsə avtomobil yolda işə düşməyə bilər."
-},
-smoke:{
-title:"💨 Tüstü çıxır",
-causes:["Yağ yanma kamerasına keçə bilər","Soyuducu maye problemi ola bilər","Yanacaq düzgün yanmaya bilər","Egzoz sistemi problemli ola bilər"],
-check:["Tüstünün rəngini müşahidə et","Tüstünün nə vaxt gəldiyini qeyd et","Mühərrik temperaturuna bax"],
-risk:"Güclü və davamlı tüstü ciddi mühərrik və ya soyutma problemi ehtimalını artırır."
-},
-brake:{
-title:"🛑 Əyləc problemi",
-causes:["Əyləc bəndləri yeyilmiş ola bilər","Əyləc mayesi az ola bilər","Disklərdə problem ola bilər","Hidravlik sistemdə nasazlıq ola bilər"],
-check:["Pedalın hissini müşahidə et","Əyləc mayesi səviyyəsinə vizual bax","Əyləc zəifdirsə avtomobili sürmə"],
-risk:"Əyləc problemi təhlükəsizlik baxımından təxirə salınmamalıdır."
-},
-oil:{
-title:"🛢️ Yağ problemi",
-causes:["Yağ səviyyəsi aşağı ola bilər","Yağ sızması ola bilər","Yanlış yağ istifadə edilmiş ola bilər","Yağ təzyiqində problem ola bilər"],
-check:["Maşını düz səthdə saxla","Mühərrik soyuduqdan sonra yağ səviyyəsinə bax","Maşının altında yağ izi axtar"],
-risk:"Yağ problemi davam edərsə mühərrikin daxili hissələrinə zərər verə bilər."
-}
+let avtomobil = {
+    marka:"",
+    model:"",
+    il:""
 };
 
-function showCar(){
-document.getElementById("home").classList.add("hidden");
-document.getElementById("car").classList.remove("hidden");
+
+/* =========================
+   PROBLEM SEÇ
+========================= */
+
+function problemSec(problem){
+
+    secilenProblem = problem;
+
+    diaqnostika();
 }
 
-function back(){
-document.getElementById("car").classList.add("hidden");
-document.getElementById("result").classList.add("hidden");
-document.getElementById("home").classList.remove("hidden");
+
+/* =========================
+   MAŞIN SEÇ
+========================= */
+
+function masinSec(){
+
+    document.getElementById("ana").classList.add("hidden");
+
+    document.getElementById("masinForm")
+        .classList.remove("hidden");
 }
 
-function saveCar(){
-let brand=document.getElementById("brand").value;
-let model=document.getElementById("model").value.trim();
-let year=document.getElementById("year").value;
 
-if(!brand||!model||!year){
-alert("Bütün məlumatları yaz.");
-return;
+/* =========================
+   MAŞINI YADDA SAXLA
+========================= */
+
+function masiniYaddaSaxla(){
+
+    avtomobil.marka =
+        document.getElementById("marka").value;
+
+    avtomobil.model =
+        document.getElementById("model").value.trim();
+
+    avtomobil.il =
+        document.getElementById("il").value.trim();
+
+
+    if(
+        !avtomobil.marka ||
+        !avtomobil.model ||
+        !avtomobil.il
+    ){
+
+        alert("Zəhmət olmasa bütün məlumatları yaz.");
+        return;
+    }
+
+    const modelList = modelBazasi[avtomobil.marka] || [];
+    const exact = modelList.find(m => normalizeModel(m) === normalizeModel(avtomobil.model));
+    if(!exact && modelList.length){
+        const closest = modelList
+          .map(m => ({m, d:modelMesafe(avtomobil.model,m)}))
+          .sort((a,b)=>a.d-b.d)[0];
+        if(closest && closest.d <= Math.max(2, Math.ceil(avtomobil.model.length*0.45))){
+            if(confirm(`"${avtomobil.model}" əvəzinə "${closest.m}" nəzərdə tutursan?`)){
+                avtomobil.model = closest.m;
+            }
+        }
+    }
+
+
+    localStorage.setItem(
+        "ustaMateCar",
+        JSON.stringify(avtomobil)
+    );
+
+
+    alert("✅ Maşın yadda saxlanıldı!");
+
+    document.getElementById("masinForm")
+        .classList.add("hidden");
+
+    document.getElementById("ana")
+        .classList.remove("hidden");
+
+    yaddaSaxlanmisMasiniGoster();
 }
 
-car={brand,model,year};
-localStorage.setItem("ustamateCar",JSON.stringify(car));
-showSavedCar();
-back();
+
+/* =========================
+   YADDAŞDAN MAŞINI GÖSTƏR
+========================= */
+
+function yaddaSaxlanmisMasiniGoster(){
+
+    let data =
+        localStorage.getItem("ustaMateCar");
+
+    if(!data) return;
+
+    avtomobil = JSON.parse(data);
+
+    document.getElementById("savedCar").innerHTML = `
+
+        <div class="card">
+
+            <div class="header">
+
+                <div>
+                    <b>🚗 Mənim maşınım</b><br>
+                    <span class="small">
+                        ${avtomobil.marka}
+                        ${avtomobil.model}
+                        ${avtomobil.il}
+                    </span>
+                </div>
+
+                <button class="secondary"
+                        data-action="masinSec">
+                    ✏️ Dəyiş
+                </button>
+
+            </div>
+
+        </div>
+    `;
 }
 
-function showSavedCar(){
-if(!car)return;
-document.getElementById("carBox").innerHTML=
-"<b>🚗 Mənim maşınım</b><br>"+
-car.brand+" "+car.model+" "+car.year;
+
+/* =========================
+   REAL TUCSON ŞƏKLİ
+========================= */
+
+/*
+   Tucson üçün şəkil.
+   Şəkil açılmasa onerror funksiyası
+   aşağıdakı təhlükəsiz alternativi göstərir.
+*/
+
+const tucsonPhoto =
+"https://upload.wikimedia.org/wikipedia/commons/1/11/Hyundai--Tucson.jpg";
+
+
+function avtomobilFotosu(){
+
+    if(
+        avtomobil.marka.toLowerCase() === "hyundai" &&
+        avtomobil.model.toLowerCase().includes("tucson") &&
+        avtomobil.il == "2007"
+    ){
+        return tucsonPhoto;
+    }
+
+    return "";
 }
 
-function diagnose(type){
-let p=problems[type];
-let name=car?car.brand+" "+car.model+" "+car.year:"Maşın seçilməyib";
 
-document.getElementById("home").classList.add("hidden");
-document.getElementById("result").classList.remove("hidden");
 
-document.getElementById("result").innerHTML=`
-<div class="card">
-<h2>${p.title}</h2>
-<p>🚗 <b>${name}</b></p>
-</div>
+/* =========================
+   MODEL TƏKLİFLƏRİ
+========================= */
 
-<div class="card">
-<h3>🔎 Mümkün səbəblər</h3>
-<ul>${p.causes.map(x=>"<li>"+x+"</li>").join("")}</ul>
-</div>
+const modelBazasi = {
+    Hyundai:["Accent","Elantra","Sonata","Tucson","Santa Fe","ix35","i30","Getz","Coupe","Terracan"],
+    Kia:["Rio","Cerato","Optima","K5","Sportage","Sorento","Picanto","Ceed","Soul"],
+    Toyota:["Corolla","Camry","Prius","RAV4","Land Cruiser","Yaris","Avensis","Highlander"],
+    BMW:["3 Series","5 Series","7 Series","X1","X3","X5","X6"],
+    "Mercedes-Benz":["C-Class","E-Class","S-Class","A-Class","GLA","GLC","GLE"],
+    Volkswagen:["Golf","Passat","Jetta","Polo","Tiguan","Touareg","Transporter"],
+    Ford:["Focus","Fusion","Mondeo","Fiesta","Kuga","Explorer","Mustang"],
+    Chevrolet:["Cruze","Aveo","Malibu","Captiva","Tahoe","Niva"],
+    Lada:["2107","Priora","Granta","Vesta","Niva","Niva Travel"]
+};
 
-<div class="card">
-<h3>🔧 Özün təhlükəsiz yoxla</h3>
-<ol>${p.check.map(x=>"<li>"+x+"</li>").join("")}</ol>
-</div>
-
-<div class="warning">
-<b>⚠️ Gələcəkdə yarana biləcək risk:</b><br>
-${p.risk}
-<br><br>
-Bu yalnız ehtimaldır; dəqiq nəticə üçün ölçmə və diaqnostika lazımdır.
-</div>
-
-<button onclick="back()">⬅️ Geri</button>
-`;
+function normalizeModel(s){
+    return (s||"").toLowerCase()
+      .replace(/ə/g,"e").replace(/ı/g,"i").replace(/ö/g,"o").replace(/ü/g,"u")
+      .replace(/ş/g,"s").replace(/ç/g,"c").replace(/ğ/g,"g")
+      .replace(/[^a-z0-9]/g,"");
 }
 
-showSavedCar();
+function modelMesafe(a,b){
+    a=normalizeModel(a); b=normalizeModel(b);
+    if(a===b) return 0;
+    const dp=Array.from({length:a.length+1},()=>Array(b.length+1).fill(0));
+    for(let i=0;i<=a.length;i++) dp[i][0]=i;
+    for(let j=0;j<=b.length;j++) dp[0][j]=j;
+    for(let i=1;i<=a.length;i++){
+        for(let j=1;j<=b.length;j++){
+            dp[i][j]=Math.min(
+                dp[i-1][j]+1,
+                dp[i][j-1]+1,
+                dp[i-1][j-1]+(a[i-1]===b[j-1]?0:1)
+            );
+        }
+    }
+    return dp[a.length][b.length];
+}
+
+function modelTeklifleriGoster(){
+    const marka=document.getElementById("marka").value;
+    const input=document.getElementById("model");
+    const box=document.getElementById("modelTeklifleri");
+    if(!box || !input) return;
+
+    const yazilan=input.value.trim();
+    if(!marka || yazilan.length<1){
+        box.innerHTML="";
+        box.classList.add("hidden");
+        return;
+    }
+
+    let modeller=modelBazasi[marka]||[];
+    let sonuc=modeller
+      .map(m=>({m, d:modelMesafe(yazilan,m)}))
+      .filter(x=>x.d<=Math.max(2,Math.ceil(yazilan.length*0.45)))
+      .sort((a,b)=>a.d-b.d)
+      .slice(0,5);
+
+    if(!sonuc.length){
+        box.innerHTML="";
+        box.classList.add("hidden");
+        return;
+    }
+
+    box.innerHTML=sonuc.map(x=>`
+      <div class="model-suggestion" onclick="modelSec('${x.m.replace(/'/g,"\\'")}')">
+        <b>🚗 ${marka} ${x.m}</b>
+        <span>Model adını bunu nəzərdə tutmuş ola bilərsən</span>
+      </div>
+    `).join("");
+    box.classList.remove("hidden");
+}
+
+function modelSec(ad){
+    document.getElementById("model").value=ad;
+    const box=document.getElementById("modelTeklifleri");
+    if(box){box.innerHTML="";box.classList.add("hidden");}
+}
+
+/* =========================
+   PROBLEM MƏLUMATLARI
+========================= */
+
+const problemlər = {
+
+    start:{
+        title:"🔑 Maşın işə düşmür",
+
+        causes:[
+            "Akkumulyator zəif ola bilər",
+            "Starter sistemi ilə bağlı problem ola bilər",
+            "Yanacaq və ya alışdırma sistemi problemli ola bilər",
+            "Elektrik bağlantısında problem ola bilər"
+        ],
+
+        part:"Akkumulyator / starter / alışdırma sistemi",
+
+        price:"Qiymət problemin səbəbindən asılıdır",
+
+        danger:true
+    },
+
+
+    stall:{
+        title:"⚠️ Qaz verəndə boğulur və ya sönür",
+
+        causes:[
+            "Hava filtri çirkli ola bilər",
+            "Hava girişində problem ola bilər",
+            "Yanacaq sistemi ilə bağlı problem ola bilər",
+            "Sensorlardan biri səhv məlumat göndərə bilər"
+        ],
+
+        part:"Hava filtri / hava giriş sistemi",
+
+        price:"Hava filtri adətən münasib qiymətli hissədir",
+
+        danger:false
+    },
+
+
+    fuel:{
+        title:"⛽ Yanacaq sərfiyyatı artıb",
+
+        causes:[
+            "Təkərlərin havası aşağı ola bilər",
+            "Hava filtri çirkli ola bilər",
+            "Mühərrik düzgün işləməyə bilər",
+            "Sensor və ya yanacaq sistemi problemi ola bilər"
+        ],
+
+        part:"Hava filtri",
+
+        price:"Modelə görə dəyişir",
+
+        danger:false
+    },
+
+
+    sound:{
+        title:"🔊 Mühərrikdən qəribə səs gəlir",
+
+        causes:[
+            "Kəmər və ya gərginlik sistemi ilə bağlı problem ola bilər",
+            "Yağ səviyyəsi aşağı ola bilər",
+            "Mühərrikdə mexaniki problem ola bilər",
+            "Egzoz sistemində boşluq ola bilər"
+        ],
+
+        part:"Problemin mənbəyindən asılıdır",
+
+        price:"Diaqnostikadan sonra müəyyən edilir",
+
+        danger:true
+    },
+
+
+    hot:{
+        title:"🌡️ Mühərrik qızır",
+
+        causes:[
+            "Soyuducu maye səviyyəsi aşağı ola bilər",
+            "Soyutma sistemində problem ola bilər",
+            "Ventilyator düzgün işləməyə bilər",
+            "Termostat və ya radiator problemi ola bilər"
+        ],
+
+        part:"Soyutma sistemi",
+
+        price:"Problemin səbəbindən asılıdır",
+
+        danger:true
+    },
+
+
+    battery:{
+        title:"🔋 Akkumulyator tez boşalır",
+
+        causes:[
+            "Akkumulyator köhnəlmiş ola bilər",
+            "Generator düzgün doldurmaya bilər",
+            "Elektrik sistemində enerji itkisi ola bilər",
+            "İşıq və ya başqa avadanlıq açıq qala bilər"
+        ],
+
+        part:"Akkumulyator / generator",
+
+        price:"Modelə və hissəyə görə dəyişir",
+
+        danger:true
+    },
+
+
+    smoke:{
+        title:"💨 Tüstü çıxır",
+
+        causes:[
+            "Mühərrik yağı yanma kamerasına keçə bilər",
+            "Soyuducu maye ilə bağlı problem ola bilər",
+            "Yanacağın yanması düzgün getməyə bilər",
+            "Egzoz sistemi problemi ola bilər"
+        ],
+
+        part:"Dəqiq diaqnostika lazımdır",
+
+        price:"Səbəbdən asılıdır",
+
+        danger:true
+    },
+
+
+    idle:{
+        title:"🔄 Xolostoyda mühərrik titrəyir",
+
+        causes:[
+            "Hava girişində problem ola bilər",
+            "Hava filtri çirkli ola bilər",
+            "Alışdırma sistemi problemli ola bilər",
+            "Sensorlardan biri düzgün işləməyə bilər"
+        ],
+
+        part:"Hava filtri / alışdırma sistemi",
+
+        price:"Problemin səbəbindən asılıdır",
+
+        danger:false
+    },
+
+
+    brake:{
+        title:"🛑 Əyləc problemi",
+
+        causes:[
+            "Əyləc bəndləri yeyilmiş ola bilər",
+            "Əyləc sistemi maye və ya hidravlik problemə malik ola bilər",
+            "Disklərdə problem ola bilər",
+            "Əyləc sistemində başqa nasazlıq ola bilər"
+        ],
+
+        part:"Əyləc sistemi",
+
+        price:"Hissəyə və avtomobilə görə dəyişir",
+
+        danger:true
+    },
+
+
+    oil:{
+        title:"🛢️ Yağ problemi",
+
+        causes:[
+            "Yağ səviyyəsi aşağı ola bilər",
+            "Yağ sızması ola bilər",
+            "Yanlış yağ istifadə edilmiş ola bilər",
+            "Mühərrikdə yağ təzyiqi problemi ola bilər"
+        ],
+
+        part:"Mühərrik yağı / yağ filtri",
+
+        price:"Yağ və filtr modelə görə dəyişir",
+
+        danger:true
+    }
+,
+    crank:{title:"🔄 Starter fırladır, amma mühərrik işə düşmür",causes:["Yanacaq çatışmazlığı ola bilər","Alışdırma sistemi problemli ola bilər","Mühərrik idarəetmə sensorlarından biri problemli ola bilər"],part:"Yanacaq / alışdırma sistemi",price:"Diaqnostikadan sonra müəyyən edilir",danger:true},
+    slowstart:{title:"🐢 Maşın gec işə düşür",causes:["Akkumulyator zəif ola bilər","Starter zəifləyə bilər","Yanacaq təzyiqi aşağı ola bilər","Şamlar və ya alışdırma sistemi problemli ola bilər"],part:"Akkumulyator / starter / şamlar",price:"Modelə görə dəyişir",danger:false},
+    antifreeze:{title:"💧 Antifriz azalır və ya sızır",causes:["Şlanq və birləşmələrdə sızma ola bilər","Radiator və ya su nasosu problemli ola bilər","Genişləndirici qabda problem ola bilər"],part:"Radiator / şlanq / su nasosu",price:"Səbəbdən asılıdır",danger:true},
+    brakepull:{title:"↔️ Əyləcdə maşın bir tərəfə çəkir",causes:["Əyləc bəndləri və ya support ilişə bilər","Təkər təzyiqləri fərqli ola bilər","Asqı və sükan hissələrində problem ola bilər"],part:"Əyləc supportu / bəndlər",price:"Diaqnostikadan sonra",danger:true},
+    steering:{title:"🛞 Sükan ağırlaşıb",causes:["Hidravlik və ya elektrik sükan sistemi problemli ola bilər","Sükan mayesi az ola bilər","Təkərlərin havası aşağı ola bilər"],part:"Sükan sistemi",price:"Səbəbdən asılıdır",danger:true},
+    "steer-vib":{title:"〰️ Sükan titrəyir",causes:["Təkər balansı pozula bilər","Diskdə əyrilik ola bilər","Asqı və ya sükan hissələrində boşluq ola bilər"],part:"Balans / disk / asqı",price:"Səbəbdən asılıdır",danger:false},
+    suspension:{title:"🔩 Asqıdan taqqıltı gəlir",causes:["Stabilizator çubuğu və rezinləri yeyilmiş ola bilər","Amortizator və ya dayaqlar problemli ola bilər","Asqı birləşmələrində boşluq ola bilər"],part:"Asqı hissələri",price:"Hissədən asılıdır",danger:true},
+    wheelnoise:{title:"🔊 Təkər tərəfdən uğultu gəlir",causes:["Təkər podşipniki yeyilmiş ola bilər","Təkərin qeyri-bərabər yeyilməsi səs yarada bilər","Əyləc sistemi sürtünə bilər"],part:"Təkər podşipniki / əyləc",price:"Diaqnostikadan sonra",danger:true},
+    pull:{title:"🚗 Maşın bir tərəfə çəkir",causes:["Təkər təzyiqləri fərqli ola bilər","Razval-sxojdeniya pozula bilər","Asqı və sükan hissələrində problem ola bilər"],part:"Razval-sxojdeniya / asqı",price:"Səbəbdən asılıdır",danger:false},
+    tirewear:{title:"🛞 Təkərlər qeyri-bərabər yeyilir",causes:["Razval-sxojdeniya pozula bilər","Təkər təzyiqi düzgün olmaya bilər","Asqı hissələrində boşluq ola bilər"],part:"Təkər / razval-sxojdeniya",price:"Modelə görə dəyişir",danger:false},
+    gear:{title:"⚙️ Sürətlər gec və ya sərt dəyişir",causes:["Sürət qutusu yağı ilə bağlı problem ola bilər","Sensor və ya solenoid problemi ola bilər","Mexaniki aşınma ola bilər"],part:"Sürət qutusu yağı / hissələri",price:"Diaqnostikadan sonra",danger:true},
+    gearnoise:{title:"⚙️ Sürət qutusundan səs gəlir",causes:["Yağ səviyyəsi aşağı ola bilər","Podşipnik və ya dişli aşınması ola bilər","Sürət qutusunda mexaniki problem ola bilər"],part:"Sürət qutusu hissələri",price:"Səbəbdən asılıdır",danger:true},
+    shudder:{title:"🚦 Hərəkətə başlayanda silkələnir",causes:["Debriyaj sistemi yeyilmiş ola bilər","Mühərrik dayaqları zəif ola bilər","Avtomatik qutuda ötürmə problemi ola bilər"],part:"Debriyaj / mühərrik dayaqları",price:"Diaqnostikadan sonra",danger:false},
+    check:{title:"🚨 Check Engine yanır",causes:["Sensorlardan biri xəta verə bilər","Yanacaq və alışdırma sistemi problemli ola bilər","Egzoz/emissiya sistemi ilə bağlı xəta ola bilər"],part:"Dəqiq hissə OBD diaqnostikası ilə müəyyən edilir",price:"Əvvəlcə kodu oxutmaq lazımdır",danger:false},
+    abs:{title:"🚨 ABS / ESP / Airbag işığı yanır",causes:["Sensor və naqillərdə problem ola bilər","ABS sistemində xəta ola bilər","Airbag sistemində elektrik xətası ola bilər"],part:"Sensor / ABS / təhlükəsizlik sistemi",price:"Diaqnostikadan sonra",danger:true},
+    oilpressure:{title:"⚠️ Yağ təzyiqi işığı yanır",causes:["Yağ səviyyəsi aşağı ola bilər","Yağ təzyiqi həqiqətən aşağı ola bilər","Təzyiq sensoru problemli ola bilər"],part:"Yağ sistemi / təzyiq sensoru",price:"Təcili diaqnostika lazımdır",danger:true},
+    light:{title:"💡 Faralar zəifdir",causes:["Lampalar köhnələ bilər","Gərginlik aşağı ola bilər","Faraların şüşəsi bulanıq ola bilər","Elektrik bağlantısında problem ola bilər"],part:"Lampa / elektrik sistemi",price:"Modelə görə dəyişir",danger:false},
+    electric:{title:"🔌 Elektrik avadanlığı işləmir",causes:["Sığorta yanmış ola bilər","Rele və ya naqil problemi ola bilər","Akkumulyator/generator gərginliyi aşağı ola bilər"],part:"Sığorta / rele / elektrik sistemi",price:"Diaqnostikadan sonra",danger:false},
+    ac:{title:"❄️ Kondisioner soyutmur",causes:["Soyuducu qazın səviyyəsi aşağı ola bilər","Kompresor və ya mufta problemi ola bilər","Kondensator və ya ventilyator problemi ola bilər"],part:"Kondisioner sistemi",price:"Diaqnostikadan sonra",danger:false},
+    heater:{title:"🔥 Peç isti/soyuq vermir",causes:["Soyutma mayesi səviyyəsi aşağı ola bilər","Termostat və ya peç radiatoru problemli ola bilər","Hava klapanı/idarəetməsi problemli ola bilər"],part:"Peç sistemi / termostat",price:"Səbəbdən asılıdır",danger:false},
+    fan:{title:"💨 Ventilyator işləmir",causes:["Sığorta və ya rele problemli ola bilər","Ventilyator motoru nasaz ola bilər","Naqil və idarəetmə problemi ola bilər"],part:"Ventilyator / rele / sığorta",price:"Modelə görə dəyişir",danger:false},
+    lock:{title:"🔐 Mərkəzi kilid işləmir",causes:["Pult batareyası zəif ola bilər","Sığorta və ya aktuator problemi ola bilər","Mərkəzi kilid idarəetməsində problem ola bilər"],part:"Pult batareyası / aktuator / sığorta",price:"Səbəbdən asılıdır",danger:false},
+    window:{title:"🪟 Şüşələr qalxmır və ya açılmır",causes:["Şüşə qaldıran motor problemli ola bilər","Düymə və ya sığorta nasaz ola bilər","Naqil bağlantısında problem ola bilər"],part:"Şüşə motoru / düymə / sığorta",price:"Modelə görə dəyişir",danger:false},
+    radio:{title:"📻 Maqnitofon işləmir",causes:["Sığorta yanmış ola bilər","Qidalanma və naqil problemi ola bilər","Maqnitofonun özündə nasazlıq ola bilər"],part:"Sığorta / maqnitofon",price:"Diaqnostikadan sonra",danger:false},
+    smell:{title:"👃 Yanacaq və ya qaz iyi gəlir",causes:["Yanacaq xəttində sızma ola bilər","Çən və ya bağlantılarda problem ola bilər","Egzoz və havalandırma sistemindən qoxu kabinə daxil ola bilər"],part:"Yanacaq sistemi",price:"Təcili yoxlama lazımdır",danger:true},
+    burn:{title:"👃 Yanmış yağ iyi gəlir",causes:["Yağ isti mühərrik hissəsinə sızır ola bilər","Yağ səviyyəsi və sızma problemi ola bilər","Elektrik komponentində qızma da qoxuya səbəb ola bilər"],part:"Yağ sızması / mühərrik bölməsi",price:"Diaqnostikadan sonra",danger:true},
+    exhaust:{title:"💥 Egzozdan qəribə səs gəlir",causes:["Egzoz borusunda boşluq və ya çat ola bilər","Səsboğucu və bərkidicilər problemli ola bilər","Katalizatorla bağlı problem ola bilər"],part:"Egzoz sistemi",price:"Səbəbdən asılıdır",danger:false}
+
+};
+
+
+const məhsullar={
+start:{name:"Akkumulyator / starter sistemi",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Car_battery.jpg/640px-Car_battery.jpg"},
+stall:{name:"Hava filtri / hava giriş sistemi",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Air_filter.jpg/640px-Air_filter.jpg"},
+fuel:{name:"Hava filtri",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Air_filter.jpg/640px-Air_filter.jpg"},
+sound:{name:"Kəmər / gərginlik sistemi",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Timing_belt.jpg/640px-Timing_belt.jpg"},
+hot:{name:"Soyutma sistemi hissələri",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Car_radiator.jpg/640px-Car_radiator.jpg"},
+battery:{name:"Akkumulyator / generator",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Car_battery.jpg/640px-Car_battery.jpg"},
+smoke:{name:"Mühərrik və egzoz sistemi",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Car_exhaust.jpg/640px-Car_exhaust.jpg"},
+idle:{name:"Hava filtri / alışdırma sistemi",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Air_filter.jpg/640px-Air_filter.jpg"},
+brake:{name:"Əyləc bəndləri / disk sistemi",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Disc_brake.jpg/640px-Disc_brake.jpg"},
+oil:{name:"Mühərrik yağı / yağ filtri",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Motor_oil.jpg/640px-Motor_oil.jpg"}
+};
+
+/* =========================
+   DİAQNOSTİKA
+========================= */
+
+function diaqnostika(){
+
+    if(!secilenProblem){
+
+        alert("Əvvəlcə problem seç.");
+        return;
+    }
+
+
+    let data =
+        problemlər[secilenProblem];
+
+    if(!data) return;
+
+
+    let photo =
+        avtomobilFotosu();
+
+
+    let carName =
+        avtomobil.marka
+        ? `${avtomobil.marka} ${avtomobil.model} ${avtomobil.il}`
+        : "Maşın seçilməyib";
+
+
+    let photoHTML = "";
+
+
+    if(photo){
+
+        photoHTML = `
+
+            <img
+                src="${photo}"
+                class="car-photo"
+                alt="${carName}"
+                onerror="sekilXetasi(this)"
+            >
+
+        `;
+
+    }else{
+
+        photoHTML = `
+
+            <div class="card"
+                 style="text-align:center">
+                <div style="font-size:52px">🚗</div>
+                <h3>Maşın şəkli</h3>
+                <p class="small">Bu model üçün şəkil bazası növbəti mərhələdə genişləndiriləcək.</p>
+
+                <h3>${carName}</h3>
+
+                <p class="small">
+                    Bu avtomobil üçün şəkil bazaya
+                    əlavə olunacaq.
+                </p>
+
+            </div>
+
+        `;
+    }
+
+
+    let dangerHTML = data.danger
+        ? `
+            <div class="warning">
+                ⚠️ <b>Təhlükəsizlik:</b><br>
+                Bu problemdə avtomobili sökməyə
+                və riskli təmirə çalışma.
+                Əsas yoxlamalardan sonra problem
+                qalırsa ustaya müraciət et.
+            </div>
+        `
+        : `
+            <div class="safe">
+                ✅ Sadə vizual yoxlamaları
+                təhlükəsiz şəkildə edə bilərsən.
+            </div>
+        `;
+
+
+    document.getElementById("ana")
+        .classList.add("hidden");
+
+
+    document.getElementById("masinForm")
+        .classList.add("hidden");
+
+
+    document.getElementById("netice")
+        .classList.remove("hidden");
+
+
+    document.getElementById("netice").innerHTML = `
+
+        <div class="card">
+
+            ${photoHTML}
+
+            <div class="result-title">
+                ${data.title}
+            </div>
+
+            <p>
+                🚗 <b>${carName}</b>
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>🔎 Mümkün səbəblər</h3>
+
+            <ul>
+
+                ${data.causes
+                    .map(x => `<li>${x}</li>`)
+                    .join("")}
+
+            </ul>
+
+        </div>
+
+
+        ${dangerHTML}
+
+
+        <div class="card">
+
+            <h3>🧰 Nə edə bilərsən?</h3>
+
+            <p>
+                İlk növbədə təhlükəsiz vizual
+                yoxlamaları et.
+            </p>
+
+            <button class="success"
+                    data-action="ozunYoxla">
+                🔧 Problemi özümüz həll etməyə çalışaq — addım-addım
+            </button>
+
+            <button class="danger"
+                    data-action="ustaMesaji">
+                👨‍🔧 Ustaya müraciət et
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>🛒 Sifariş / Hissə</h3>
+            <div class="product-card">
+                <img class="product-img" src="${məhsullar[secilenProblem]?.image || ''}" alt="${məhsullar[secilenProblem]?.name || data.part}" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360"><rect width="600" height="360" rx="24" fill="#15171b"/><text x="300" y="185" text-anchor="middle" fill="white" font-size="34" font-family="Arial">🔧 Hissə</text></svg>');">
+                <h3>${məhsullar[secilenProblem]?.name || data.part}</h3>
+                <p>Şəkil nümunə xarakterlidir. Sifarişdən əvvəl avtomobilə uyğunluğunu yoxla.</p>
+                <p class="price">${data.price}</p>
+                <button class="primary" onclick="sifaris('${data.part}')">🛒 Hissəni axtar / sifariş et</button>
+            </div>
+
+        </div>
+
+
+        <button class="secondary"
+                data-action="anaQayit">
+            ⬅️ Problem seçiminə qayıt
+        </button>
+
+    `;
+}
+
+
+/* =========================
+   ŞƏKİL XƏTASI
+========================= */
+
+function sekilXetasi(img){
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420">
+      <rect width="900" height="420" rx="28" fill="#15171b"/>
+      <text x="450" y="70" text-anchor="middle" fill="#fff" font-size="30" font-family="Arial">Hyundai Tucson</text>
+      <g transform="translate(110 120)">
+        <path d="M90 170 L135 85 Q155 55 205 50 L485 50 Q535 55 570 88 L625 170 L665 185 Q690 195 690 225 L690 250 L640 250 Q630 205 580 205 Q530 205 520 250 L220 250 Q210 205 160 205 Q110 205 100 250 L50 250 L50 205 Q50 185 90 170Z" fill="#9aa3ad" stroke="#e8edf2" stroke-width="8"/>
+        <path d="M175 75 L240 70 L230 145 L125 145Z M255 70 L350 70 L350 145 L245 145Z M365 70 L475 75 L545 145 L365 145Z" fill="#26313b" stroke="#dbe2e8" stroke-width="5"/>
+        <circle cx="160" cy="250" r="42" fill="#20242a" stroke="#d7dde3" stroke-width="9"/>
+        <circle cx="160" cy="250" r="16" fill="#9aa3ad"/>
+        <circle cx="575" cy="250" r="42" fill="#20242a" stroke="#d7dde3" stroke-width="9"/>
+        <circle cx="575" cy="250" r="16" fill="#9aa3ad"/>
+      </g>
+    </svg>`;
+    img.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+    img.style.display = "block";
+    img.alt = "Hyundai Tucson — alternativ görünüş";
+}
+
+
+/* =========================
+   ÖZÜM YOXLAYIM
+========================= */
+
+
+const əlavəYoxlamaAddımları = {
+  crank:["Yanacaq səviyyəsini yoxla.","Start zamanı mühərrikin normal fırlanıb-fırlanmadığını dinlə.","Paneldə Check Engine və başqa xəbərdarlıq işıqlarını qeyd et."],
+  slowstart:["Akkumulyatorun zəif olub-olmadığını yoxla.","Start zamanı mühərrikin fırlanma sürətinə fikir ver.","Problemin soyuq, yoxsa isti mühərrikdə daha çox olduğunu qeyd et."],
+  antifreeze:["Mühərrik tam soyuduqdan sonra genişləndirici qabın səviyyəsinə bax.","Şlanqlarda və radiator ətrafında görünən sızma izi axtar.","İsti mühərrikdə radiator qapağını açma."],
+  brakepull:["Təkərlərin havasını müqayisə et.","Əyləc zamanı maşının hansı tərəfə çəkdiyini qeyd et.","Əyləc sistemi qızırsa və ya pedal qeyri-normaldırsa sürməyə davam etmə."],
+  steering:["Təkərlərin havasını yoxla.","Sükan mayesi olan sistemdirsə səviyyəni yoxla.","Sükan birdən ağırlaşıbsa hərəkəti dayandır."],
+  "steer-vib":["Titrəmənin hansı sürətdə başladığını qeyd et.","Təkərlərdə görünən zədə və qeyri-bərabər yeyilməni yoxla.","Diskdə görünən əyrilik varsa sürəti artırma."],
+  suspension:["Avtomobil dayanmış vəziyyətdə görünən boşluq və ya zədə axtar.","Taqqıltının hansı yolda daha çox olduğunu qeyd et.","Asqı hissələrini təhlükəsiz dayaq olmadan sökmə."],
+  wheelnoise:["Səsin sürət artdıqca dəyişib-dəyişmədiyini müşahidə et.","Təkərlərin vəziyyətini yoxla.","Qızmış təkər və ya yanıq qoxusu varsa sürməyə davam etmə."],
+  pull:["Təkər təzyiqlərini yoxla.","Maşının düz yolda hansı tərəfə çəkdiyini müşahidə et.","Təkər və asqıda görünən zədə varsa yoxlatdır."],
+  tirewear:["Dörd təkərin yeyilməsini müqayisə et.","Təkər təzyiqini ölç.","Qeyri-bərabər yeyilmə davam edirsə razval-sxojdeniya yoxlatdır."],
+  gear:["Sürət qutusu yağının sızma izlərini yoxla.","Problemin hansı ötürmədə baş verdiyini qeyd et.","Güclü zərbə və ya sürüşmə varsa avtomobili yükləmə."],
+  gearnoise:["Səsin boşda, hərəkətdə və ya konkret ötürmədə gəldiyini qeyd et.","Sürət qutusu altında yağ sızması axtar.","Güclü mexaniki səs varsa sürməyə davam etmə."],
+  shudder:["Silkələnmənin yalnız hərəkətə başlayanda, yoxsa sürüş zamanı da olduğunu qeyd et.","Mühərrik dayaqlarında görünən çat/zədə axtar.","Güclü silkələnmə varsa aqressiv sürmə etmə."],
+  check:["Check Engine işığının sabit, yoxsa yanıb-sönən olduğunu qeyd et.","Paneldə digər xəbərdarlıq işıqlarını yoxla.","Yanıb-sönən Check Engine və güclü mühərrik titrəməsi varsa sürməyə davam etmə."],
+  abs:["Hansı xəbərdarlıq işığının yandığını dəqiq qeyd et.","Təkərlərdə və sensor naqillərində görünən zədə axtar.","Əyləc davranışı dəyişibsə avtomobili sürmə."],
+  oilpressure:["Yağ səviyyəsini mühərrik soyuyanda yoxla.","Yağ təzyiqi işığı sönmürsə mühərriki işlətmə.","Səbəbi müəyyən etmədən uzun məsafə sürmə."],
+  light:["Faraların hər ikisinin eyni səviyyədə olub-olmadığını yoxla.","Akkumulyator və generator gərginliyi ilə bağlı problem əlaməti olub-olmadığına bax.","Lampanı dəyişərkən uyğun tipdən istifadə et."],
+  electric:["Problemli avadanlığın sığortasını yoxla.","Eyni sığorta yenidən yanırsa daha böyük sığorta qoyma.","Akkumulyator klemmalarında boşluq və korroziya olub-olmadığına bax."],
+  ac:["Kondisionerin kompressorunun işə düşüb-düşmədiyini müşahidə et.","Kondensator və ventilyatorun görünən vəziyyətini yoxla.","Qaz doldurma və təzyiq işini ixtisaslı servisə həvalə et."],
+  heater:["Mühərrik soyuducu mayesinin səviyyəsini soyuq halda yoxla.","Mühərrikin normal temperatura çatıb-çatmadığını müşahidə et.","Qızma problemi varsa peçi istifadə edib problemi gizlətmə."],
+  fan:["Sığortanı yoxla.","Ventilyatorun ümumiyyətlə işləmədiyini və ya yalnız bəzi sürətlərdə işlədiyini qeyd et.","Mühərrik qızırsa avtomobili dayandır."],
+  lock:["Pult batareyasını yoxla.","Digər qapıların mexaniki açılıb-bağlandığını yoxla.","Sığorta və aktuatorları sökmədən əvvəl elektrik diaqnostikası apar."],
+  window:["Digər şüşələrin işləyib-işləmədiyini yoxla.","Problemli düyməyə basanda səs gəlib-gəlmədiyini dinlə.","Qapı üzlüyünü sökmədən əvvəl sığortanı yoxla."],
+  radio:["Maqnitofonun ümumiyyətlə enerji alıb-almadığını yoxla.","Sığortanı yoxla.","Naqilləri qısaqapanma yaratmadan yoxla."],
+  smell:["Maşını təhlükəsiz yerdə saxla.","Yanacaq qoxusu güclüdürsə mühərriki işə salma.","Sızmanı tapmaq üçün yanacaq sistemini sökmə."],
+  burn:["Yağ səviyyəsini yoxla.","Mühərrik bölməsində görünən yağ sızması izlərinə bax.","Güclü yanıq qoxusu və tüstü varsa avtomobili dayandır."],
+  exhaust:["Səsin mühərrik soyuq olanda, yoxsa isinəndə artdığını qeyd et.","Egzoz borusunda görünən boşluq və zədə axtar.","Egzoz sistemini isti halda əl ilə yoxlama."]
+};
+
+function ozunYoxla(){
+
+    let data =
+        problemlər[secilenProblem];
+
+    if(əlavəYoxlamaAddımları[secilenProblem]){
+        const steps = əlavəYoxlamaAddımları[secilenProblem];
+        const warning = data && data.danger
+          ? "Təhlükəsizlik tələb edən hissələri sökmə və problem ciddi görünürsə sürməyə davam etmə."
+          : "Yalnız təhlükəsiz, vizual yoxlamaları et.";
+        document.getElementById("netice").innerHTML = `
+          <div class="card">
+            <div class="result-title">🔧 ${data.title} — addım-addım yoxlama</div>
+            <ol class="check-list">${steps.map(x=>`<li>${x}</li>`).join("")}</ol>
+            <div class="${data.danger ? "warning":"safe"}">⚠️ ${warning}</div>
+            <button class="primary" onclick="diaqnostika()">⬅️ Nəticəyə qayıt</button>
+          </div>`;
+        return;
+    }
+
+    let guides = {
+
+
+        start:{
+
+            title:"🔧 İşə düşməmə üçün təhlükəsiz yoxlama",
+
+            steps:[
+                "Panel işıqlarının yanıb-yanmadığına bax.",
+                "Akkumulyatorun görünən klemmalarında boşluq və ya ciddi korroziya olub-olmadığını yoxla.",
+                "Start verəndə mühərrikin ümumiyyətlə fırlanıb-fırlanmadığını müşahidə et.",
+                "Akkumulyator çox zəif görünürsə, avtomobili məcburi şəkildə işə salmağa çalışma."
+            ],
+
+            warning:"Yanacaq sistemini və starteri sökməyə çalışma."
+        },
+
+
+        stall:{
+
+            title:"🔧 Boğulma üçün yoxlama",
+
+            steps:[
+                "Hava filtrinin çox çirkli olub-olmadığına bax.",
+                "Hava giriş borularında görünən çat və ya boşluq olub-olmadığını mühərrik söndürülmüş halda yoxla.",
+                "Mühərriki işə salanda paneldə xəbərdarlıq işığı yanırsa, onu qeyd et.",
+                "Problemin hansı halda baş verdiyini yadda saxla: soyuq mühərrikdə, isti mühərrikdə və ya qaz verəndə."
+            ],
+
+            warning:"Mühərrik işləyərkən kəmər, ventilyator və digər hərəkətli hissələrə toxunma."
+        },
+
+
+        fuel:{
+
+            title:"🔧 Yanacaq sərfiyyatı üçün yoxlama",
+
+            steps:[
+                "Təkərlərin havasının normal olub-olmadığını yoxla.",
+                "Hava filtrinin vəziyyətinə bax.",
+                "Maşının yükünü və son vaxtlar sürüş şəraitini nəzərə al.",
+                "Sərfiyyatın nə vaxt artdığını qeyd et."
+            ],
+
+            warning:"Yanacaq sistemini və injektorları özün sökmə."
+        },
+
+
+        sound:{
+
+            title:"🔧 Qəribə səs üçün yoxlama",
+
+            steps:[
+                "Səsin mühərrik soyuq olanda, yoxsa qızandan sonra gəldiyini müəyyən et.",
+                "Səsin təxmini hansı tərəfdən gəldiyini müşahidə et.",
+                "Paneldə yağ və ya başqa xəbərdarlıq işığı olub-olmadığına bax.",
+                "Səs güclüdürsə və ya sürətlə artırsa avtomobili istifadə etmə."
+            ],
+
+            warning:"Mühərrik işləyərkən kəmərlərə və fırlanan hissələrə yaxınlaşma."
+        },
+
+
+        hot:{
+
+            title:"🌡️ Mühərrikin qızması",
+
+            steps:[
+                "Avtomobili təhlükəsiz yerdə saxla.",
+                "Mühərriki söndür və soyumasını gözlə.",
+                "Mühərrik tam soyuduqdan sonra soyuducu maye çəninin səviyyəsinə vizual bax.",
+                "Sızma izi və ya maye itkisi görünürsə ustaya müraciət et."
+            ],
+
+            warning:"🔥 Qızmış mühərrikdə radiator qapağını açma."
+        },
+
+
+        battery:{
+
+            title:"🔋 Akkumulyator üçün yoxlama",
+
+            steps:[
+                "Akkumulyatorun görünən vəziyyətinə bax.",
+                "Klemmalarda ciddi oksidləşmə olub-olmadığını yoxla.",
+                "Farların və digər elektrik cihazlarının təsadüfən açıq qalmadığından əmin ol.",
+                "Akkumulyatorun təxmini yaşını nəzərə al."
+            ],
+
+            warning:"Generatoru və elektrik sistemini sökməyə çalışma."
+        },
+
+
+        smoke:{
+
+            title:"💨 Tüstü üçün yoxlama",
+
+            steps:[
+                "Tüstünün rəngini müşahidə et.",
+                "Tüstünün yalnız soyuq startda, yoxsa davamlı gəldiyini qeyd et.",
+                "Tüstü ilə birlikdə mühərrikin qızması və ya xəbərdarlıq işığı olub-olmadığına bax.",
+                "Güclü və davamlı tüstü varsa avtomobili istifadə etmə."
+            ],
+
+            warning:"Mühərriki sökərək səbəb axtarma."
+        },
+
+
+        idle:{
+
+            title:"🔄 Xolostoy üçün yoxlama",
+
+            steps:[
+                "Mühərrik işləyərkən dövrlərin sabit olub-olmadığını müşahidə et.",
+                "Hava giriş borularında görünən boşluq və çatlara bax.",
+                "Paneldə mühərrik xəbərdarlıq işığı olub-olmadığını yoxla.",
+                "Problemin soyuq və ya isti mühərrikdə daha çox olduğunu qeyd et."
+            ],
+
+            warning:"Mühərrik işləyərkən hərəkətli hissələrə toxunma."
+        },
+
+
+        brake:{
+
+            title:"🛑 Əyləc üçün təhlükəsiz yoxlama",
+
+            steps:[
+                "Avtomobil dayanmış vəziyyətdə əyləc pedalının hissini müşahidə et.",
+                "Əyləc pedalının həddindən artıq yumşaq və ya qeyri-adi olmadığını yoxla.",
+                "Əyləc mayesi çənində səviyyənin görünən vəziyyətinə bax.",
+                "Əyləc zəifdirsə avtomobili sürmə və ustaya müraciət et."
+            ],
+
+            warning:"⚠️ Əyləc sistemi təhlükəsizlik sistemidir. Söküb təmir etməyə çalışma."
+        },
+
+
+        oil:{
+
+            title:"🛢️ Yağ üçün yoxlama",
+
+            steps:[
+                "Avtomobili düz səthdə saxla.",
+                "Mühərriki söndür və bir qədər soyumasını gözlə.",
+                "Yağ çubuğunda səviyyənin aşağı olub-olmadığına bax.",
+                "Maşının altında görünən yağ izi varsa ustaya göstər."
+            ],
+
+            warning:"Yağ təzyiqi xəbərdarlıq işığı yanırsa avtomobili sürməyə davam etmə."
+        }
+
+    };
+
+
+    let guide =
+        guides[secilenProblem];
+
+
+    document.getElementById("netice").innerHTML = `
+
+        <div class="card">
+
+            <h2>${guide.title}</h2>
+
+            <ol>
+
+                ${guide.steps
+                    .map(x => `<li>${x}</li>`)
+                    .join("")}
+
+            </ol>
+
+            <div class="warning">
+
+                ⚠️ <b>Vacib:</b><br>
+                ${guide.warning}
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>📋 Nəticə</h3>
+
+            <p>
+                Bu yoxlamalardan sonra problem
+                davam edirsə, ustaya müraciət etmək
+                daha təhlükəsizdir.
+            </p>
+
+            <button class="danger"
+                    data-action="ustaMesaji">
+                👨‍🔧 Ustaya müraciət et
+            </button>
+
+        </div>
+
+
+        <button class="secondary"
+                onclick="diaqnostika()">
+            ⬅️ Diaqnostikaya qayıt
+        </button>
+
+    `;
+}
+
+
+/* =========================
+   USTA
+========================= */
+
+function ustaMesaji(){
+
+    alert(
+        "👨‍🔧 Usta məsləhəti\n\n" +
+        "Problemin səbəbi dəqiq müəyyən " +
+        "edilməyibsə, avtomobili ustaya " +
+        "göstərmək daha təhlükəsizdir."
+    );
+}
+
+
+/* =========================
+   HİSSƏ SİFARİŞİ
+========================= */
+
+function sifaris(part){
+
+    alert(
+        "🛒 Hissə axtarışı\n\n" +
+        "Hissə: " + part +
+        "\n\n" +
+        "Növbəti versiyada UstaMate " +
+        "uyğun mağazaları və hissələri " +
+        "göstərəcək."
+    );
+}
+
+
+/* =========================
+   ANA SƏHİFƏ
+========================= */
+
+function anaQayit(){
+
+    document.getElementById("netice")
+        .classList.add("hidden");
+
+    document.getElementById("masinForm")
+        .classList.add("hidden");
+
+    document.getElementById("ana")
+        .classList.remove("hidden");
+}
+
+
+/* =========================
+   START
+========================= */
+
+
+/* =========================
+   IPHONE / LOCAL FILE BUTTON EVENTS
+========================= */
+document.addEventListener("click", function(e){
+    const btn = e.target.closest("[data-action]");
+    if(!btn) return;
+
+    const action = btn.dataset.action;
+
+    if(action === "masinSec") return masinSec();
+    if(action === "masiniYaddaSaxla") return masiniYaddaSaxla();
+    if(action === "anaQayit") return anaQayit();
+    if(action === "ozunYoxla") return ozunYoxla();
+    if(action === "ustaMesaji") return ustaMesaji();
+
+    if(action.startsWith("problemSec-")){
+        return problemSec(action.substring("problemSec-".length));
+    }
+
+    if(action === "sifaris"){
+        return sifaris(btn.dataset.part || "");
+    }
+
+    if(action === "diaqnostika"){
+        return diaqnostika();
+    }
+});
+
+/* Dinamik yaradılan hissə düymələrinin data atributları */
+const _oldDiaqnostika = diaqnostika;
+diaqnostika = function(){
+    _oldDiaqnostika();
+    const buttons = document.querySelectorAll("#netice button");
+    buttons.forEach(btn => {
+        const onclickText = btn.getAttribute("onclick");
+        if(onclickText){
+            const m = onclickText.match(/sifaris\('([^']*)'\)/);
+            if(m){
+                btn.dataset.action = "sifaris";
+                btn.dataset.part = m[1];
+                btn.removeAttribute("onclick");
+            }
+            if(onclickText.includes("anaQayit")){
+                btn.dataset.action = "anaQayit";
+                btn.removeAttribute("onclick");
+            }
+            if(onclickText.includes("ozunYoxla")){
+                btn.dataset.action = "ozunYoxla";
+                btn.removeAttribute("onclick");
+            }
+            if(onclickText.includes("ustaMesaji")){
+                btn.dataset.action = "ustaMesaji";
+                btn.removeAttribute("onclick");
+            }
+        }
+    });
+};
+
+const _oldOzunYoxla = ozunYoxla;
+ozunYoxla = function(){
+    _oldOzunYoxla();
+    document.querySelectorAll("#netice button").forEach(btn => {
+        const onclickText = btn.getAttribute("onclick");
+        if(!onclickText) return;
+        if(onclickText.includes("ustaMesaji")){
+            btn.dataset.action = "ustaMesaji";
+            btn.removeAttribute("onclick");
+        }
+        if(onclickText.includes("diaqnostika")){
+            btn.dataset.action = "diaqnostika";
+            btn.removeAttribute("onclick");
+        }
+    });
+};
+
+window.onload = function(){
+
+    yaddaSaxlanmisMasiniGoster();
+
+};
+
 </script>
 
+
+<footer style="padding:24px 16px;text-align:center;color:#8f939a;font-size:12px">
+  <div><b>UstaMate • Satış versiyası</b></div>
+  <div>Bu tətbiq ilkin diaqnostika köməkçisidir; təhlükəsizliklə bağlı və mürəkkəb təmir işləri üçün peşəkar servis yoxlaması tələb oluna bilər.</div>
+</footer>
 </body>
 </html>
